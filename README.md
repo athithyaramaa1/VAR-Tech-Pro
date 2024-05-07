@@ -70,3 +70,5 @@ Contributions are welcome! If you'd like to contribute to this project, follow t
 ## Star the Repo ⭐️
 
 If you find this project helpful or interesting, please consider leaving a ⭐️ on the repository. It would be greatly appreciated!
+
+Thank you for using *VAR Tech Pro*! 🚀
