@@ -25,4 +25,25 @@ Worry-free transactions are our specialty! Enjoy peace of mind with our secure p
 ### Powered by Cutting-edge Tech! 💻
 We've harnessed the power of the MERN (MongoDB, Express.js, React.js, Node.js) stack along with Material UI, JWT, and other top-notch technologies to deliver an unparalleled user experience.
 
+## Installation
+
+To run this application on your local machine, follow these steps:
+
+1. Make sure you have Node.js installed on your system. If not, you can download it from [nodejs.org](https://nodejs.org/).
+
+2. Fork this repository by clicking the "Fork" button at the top-right corner of this page. 
+
+3. Clone the forked repository to your local machine.
+```git clone https://github.com/athithyaramaa1/Backend-Project-Contact-Manager-App```
+
+4. Navigate to the project directory.
+```cd contact-manager```
+
+5. Install the dependencies.
+```npm install```
+
+6. After the installation is complete, you can start the application.
+```npm start```
+
+7. Open your web browser and go to [http://localhost:5001](http://localhost:8080) to access the Contact Manager App.
 
