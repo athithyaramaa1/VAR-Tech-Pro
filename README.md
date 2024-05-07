@@ -66,3 +66,7 @@ Contributions are welcome! If you'd like to contribute to this project, follow t
 ```git push origin feature/your-feature-name```
 
 6. Finally, open a pull request on the original repository and describe your changes. Your pull request will be reviewed and merged if approved.
+
+## Star the Repo ⭐️
+
+If you find this project helpful or interesting, please consider leaving a ⭐️ on the repository. It would be greatly appreciated!
