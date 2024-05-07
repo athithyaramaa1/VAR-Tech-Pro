@@ -46,3 +46,23 @@ To run this application on your local machine, follow these steps:
 
 7. Open your web browser and go to [http://localhost:8080](http://localhost:8080) to access the VAR Tech Pro Website!
 
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to this project, follow these steps:
+
+1. Fork the repository to your GitHub account.
+
+2. Clone the forked repository to your local machine.
+```git clone https://github.com/athithyaramaa1/VAR-Tech-Pro/```
+
+3. Create a new branch for your changes.
+```git checkout -b feature/your-feature-name```
+
+4. Make your changes and commit them.
+```git add .```
+```git commit -m Your commit message here```
+
+5. Push your changes to your fork.
+```git push origin feature/your-feature-name```
+
+6. Finally, open a pull request on the original repository and describe your changes. Your pull request will be reviewed and merged if approved.
