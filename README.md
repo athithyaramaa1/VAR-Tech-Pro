@@ -34,10 +34,9 @@ To run this application on your local machine, follow these steps:
 2. Fork this repository by clicking the "Fork" button at the top-right corner of this page. 
 
 3. Clone the forked repository to your local machine.
-```git clone https://github.com/athithyaramaa1/Backend-Project-Contact-Manager-App```
+```git clone https://github.com/athithyaramaa1/VAR-Tech-Pro```
 
 4. Navigate to the project directory.
-```cd contact-manager```
 
 5. Install the dependencies.
 ```npm install```
@@ -45,5 +44,5 @@ To run this application on your local machine, follow these steps:
 6. After the installation is complete, you can start the application.
 ```npm start```
 
-7. Open your web browser and go to [http://localhost:5001](http://localhost:8080) to access the Contact Manager App.
+7. Open your web browser and go to [http://localhost:8080](http://localhost:8080) to access the VAR Tech Pro Website!
 
