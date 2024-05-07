@@ -42,9 +42,20 @@ To run this application on your local machine, follow these steps:
 ```npm install```
 
 6. After the installation is complete, you can start the application.
-```npm start```
+```npm server```
 
-7. Open your web browser and go to [http://localhost:8080](http://localhost:8080) to access the VAR Tech Pro Website!
+7. Open your web browser and go to [http://localhost:8080](http://localhost:8080) to access VAR Tech Pro's Server!
+   
+8. Navigate to the project's Client Directory directory.
+```cd Client```
+
+9. After the installation is complete, you can start the application.
+```npm client```
+
+10.  Open your web browser and go to [http://localhost:5173](http://localhost:5173) to access VAR Tech Pro's seamless frontend design!
+
+11. If you wish to run both client and server concurrently, navigate to the root folder and run the command:
+```npm run dev```
 
 ## Contributing
 
