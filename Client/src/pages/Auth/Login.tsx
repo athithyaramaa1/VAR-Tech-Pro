@@ -18,10 +18,10 @@ import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import BadgeRoundedIcon from "@mui/icons-material/BadgeRounded";
 import GoogleIcon from "./GoogleIcon";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from 'axios';
+import axios from "axios";
 import { useAuth } from "../../context/auth";
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -61,8 +61,9 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [auth, setAuth] = useAuth()
+  const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const showToast = (message: string, options = {}) => {
     toast.error(message, options);
@@ -81,17 +82,23 @@ export default function Login() {
   const handleLogin = (event: React.FormEvent<SignInFormElement>) => {
     event.preventDefault();
     axios
-      .post(`${import.meta.env.VITE_APP_API}api/v1/user/login`, { email, password })
+      .post(`${import.meta.env.VITE_APP_API}api/v1/user/login`, {
+        email,
+        password,
+      })
       .then((res) => {
         console.log(res);
         if (res.status === 200) {
           setAuth({
-            ...auth, 
+            ...auth,
             user: res.data.user,
-            token: res.data.token
-          })
-          localStorage.setItem("auth", JSON.stringify(res.data))
-          navigate("/home");
+            token: res.data.token,
+          });
+          localStorage.setItem("auth", JSON.stringify(res.data));
+          toast.success("Logged in successfully!");
+          const redirectPath = location.state?.from || "/home";
+          console.log("Redirecting from:", location.state?.from);
+          navigate(redirectPath, { state: { showToast: true } });
         } else {
           setError(`Invalid email id or password!`);
         }
@@ -238,7 +245,7 @@ export default function Login() {
                     }}
                   >
                     <Checkbox size="sm" label="Remember me" name="persistent" />
-                    <Link level="title-sm" href="#replace-with-a-link">
+                    <Link level="title-sm" href="/forgot-password">
                       Forgot your password?
                     </Link>
                   </Box>

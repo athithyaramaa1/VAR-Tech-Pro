@@ -29,6 +29,7 @@ interface FormElements extends HTMLFormControlsCollection {
   password: HTMLInputElement;
   address: HTMLInputElement;
   phone: HTMLInputElement;
+  question: HTMLInputElement;
   persistent: HTMLInputElement;
 }
 
@@ -111,6 +112,7 @@ export default function SignUp() {
       password: formElements.password.value,
       address: formElements.address.value,
       phone: formElements.phone.value,
+      question: formElements.question.value,
       persistent: formElements.persistent.checked,
     };
 
@@ -295,6 +297,15 @@ export default function SignUp() {
                   {errors.password && (
                     <Typography variant="caption" sx={{ color: "red" }}>
                       {errors.password}
+                    </Typography>
+                  )}
+                </FormControl>
+                <FormControl required error={!!errors.password}>
+                  <FormLabel>Security Question: Who was your childhood best friend?</FormLabel>
+                  <Input type="question" name="question" />
+                  {errors.question && (
+                    <Typography variant="caption" sx={{ color: "red" }}>
+                      {errors.question}
                     </Typography>
                   )}
                 </FormControl>

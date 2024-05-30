@@ -6,8 +6,17 @@ import ArrowForward from '@mui/icons-material/ArrowForward';
 import Star from '@mui/icons-material/Star';
 import TwoSidedLayout from '../components/TwoSidedLayout';
 import '../blocks/Hero.css'
+import { useNavigate } from 'react-router-dom';
+
 
 export default function HeroLeft08() {
+  const navigate = useNavigate()
+  const handleNavigate = () => {
+    navigate('/home')
+  }
+  const handleLearn = () => {
+    navigate('/about')
+  }
   return (
     <TwoSidedLayout>
       <Typography
@@ -31,10 +40,10 @@ Elevating India, Dubai, & Singapore with Unrivaled Computer & Laptop Repair Expe
           '& > *': { flex: 'auto' },
         }}
       >
-        <Button size="lg" variant="outlined" color="neutral">
+        <Button size="lg" variant="outlined" color="neutral" onClick={handleLearn}>
           Learn More
         </Button>
-        <Button size="lg" endDecorator={<ArrowForward fontSize="xl" />}>
+        <Button size="lg" endDecorator={<ArrowForward fontSize="xl" />} onClick={handleNavigate}>
           Get Started
         </Button>
       </Box>

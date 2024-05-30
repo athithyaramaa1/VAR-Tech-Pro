@@ -4,25 +4,22 @@ const jwt = require("jsonwebtoken");
 const { hashPassword, comparePassword } = require("../helpers/userHelper");
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, phone, address} = req.body;
-  if (!name || !email || !password || !phone || !address) {
+  const { name, email, password, phone, address, question } = req.body;
+  if (!name || !email || !password || !phone || !address || !question) {
     return res.status(400).json({ error: "All fields are mandatory!" });
   }
 
-  // Validate email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     return res.status(400).json({ error: "Invalid email format" });
   }
 
-  // Validate password strength (at least 6 characters)
   if (password.length < 8) {
     return res
       .status(400)
       .json({ error: "Password must be at least 8 characters long" });
   }
 
-  // Validate phone number format (assuming a basic format here)
   const phoneRegex = /^\d{10}$/;
   if (!phoneRegex.test(phone)) {
     return res.status(400).json({ error: "Invalid phone number format" });
@@ -43,6 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
     password: hashedPassword,
     phone,
     address,
+    question,
   });
 
   try {
@@ -61,7 +59,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res.status(400).json({ error: "All fields are mandatory" });
+    return res.status(400).json({ error: "All fields are mandatory!!" });
   }
 
   const user = await User.findOne({ email });
@@ -87,13 +85,47 @@ const loginUser = asyncHandler(async (req, res) => {
       email: user.email,
       phone: user.phone,
       address: user.address,
+      role: user.role,
     },
     token,
   });
+});
+
+const forgotPasswordController = asyncHandler(async (req, res) => {
+  const { email, question, newPassword } = req.body;
+  if (!email || !question || !newPassword) {
+    return res.status(401).json({ error: "All fields are mandatory" });
+  }
+
+  // Find user by email
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(401).json({ error: "Email not found" });
+  }
+
+  // Check if provided answer matches stored question answer
+  if (user.question !== question) {
+    return res
+      .status(401)
+      .json({ error: "You are not allowed to make changes" });
+  }
+
+  // Hash the new password and update user's password
+  const hashedPassword = await hashPassword(newPassword);
+  user.password = hashedPassword;
+  await user.save();
+
+  // Respond with success message
+  res.status(200).json({ message: "Password reset successfully" });
 });
 
 const testController = (req, res) => {
   res.send("Protected route");
 };
 
-module.exports = { registerUser, loginUser, testController };
+module.exports = {
+  registerUser,
+  loginUser,
+  testController,
+  forgotPasswordController,
+};

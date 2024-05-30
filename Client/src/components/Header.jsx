@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -15,6 +15,8 @@ import ComputerIcon from "@mui/icons-material/Computer";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import { useAuth } from "../context/auth";
+import { toast } from "react-toastify";
+import { KeyboardArrowDown } from "@mui/icons-material";
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -22,6 +24,7 @@ function Header() {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedTab, setSelectedTab] = React.useState("Home");
   const [auth, setAuth] = useAuth();
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -48,6 +51,35 @@ function Header() {
     console.log("Navigating to:", page);
   };
 
+  const handleLogin = () => {
+    toast.success("Logged in Successfully!");
+  };
+
+  const handleLogout = () => {
+    setAuth({
+      user: null,
+      token: "",
+    });
+    localStorage.removeItem("auth");
+    console.log("Logout Successful");
+    toast.success("Logged out Successfully!");
+  };
+
+  const handleDashboard = () => {
+    navigate(`/dashboard/${auth?.user?.role === 1 ? 'admin' : 'user'}`);
+    console.log(auth?.user)
+  };
+  
+  //For the dropdown menu
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <AppBar position="static" sx={{ bgcolor: "black" }} className="container">
       <Container maxWidth="xl">
@@ -72,7 +104,12 @@ function Header() {
             VAR TECH PRO
           </Typography>
 
-          <Box sx={{ flexGrow: 2, display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              flexGrow: 2,
+              display: { xs: "none", md: "flex" },
+            }}
+          >
             <Button
               component={Link}
               to="/home"
@@ -129,7 +166,11 @@ function Header() {
               onChange={handleSearchInputChange}
               fullWidth
               size="small"
-              sx={{ bgcolor: "white", color: "black", borderRadius: "inherit" }}
+              sx={{
+                bgcolor: "white",
+                color: "black",
+                borderRadius: "inherit",
+              }}
             />
             <IconButton
               aria-label="search"
@@ -144,36 +185,72 @@ function Header() {
             </IconButton>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Button
-              component={Link}
-              to="/login"
-              sx={{
-                mx: 1,
-                color: "white",
-                transition: "color 0.3s, background-color 0.3s",
-                "&:hover": {
-                  color: "black",
-                  backgroundColor: "white",
-                },
-              }}
-            >
-              Login
-            </Button>
-            <Button
-              component={Link}
-              to="/signup"
-              sx={{
-                mx: 1,
-                color: "white",
-                transition: "color 0.3s, background-color 0.3s",
-                "&:hover": {
-                  color: "black",
-                  backgroundColor: "white",
-                },
-              }}
-            >
-              Signup
-            </Button>
+            {auth.user ? (
+              <>
+                <div>
+                  <Button
+                    id="basic-button"
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                    sx={{color: "Yellow"}}
+                  >
+                    {auth?.user?.name}
+                    <KeyboardArrowDown
+                    sx={{ transform: open ? "rotate(180deg)" : "none" }}
+                  />
+                  </Button>
+                  
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                  >
+                    <MenuItem onClick={handleDashboard}>Dashboard</MenuItem>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                  </Menu>
+                </div>
+              </>
+            ) : (
+              <>
+                <Button
+                  component={Link}
+                  to="/login"
+                  onClick={handleLogin}
+                  sx={{
+                    mx: 1,
+                    color: "white",
+                    transition: "color 0.3s, background-color 0.3s",
+                    "&:hover": {
+                      color: "black",
+                      backgroundColor: "white",
+                    },
+                  }}
+                >
+                  Login
+                </Button>
+                <Button
+                  component={Link}
+                  to="/signup"
+                  sx={{
+                    mx: 1,
+                    color: "white",
+                    transition: "color 0.3s, background-color 0.3s",
+                    "&:hover": {
+                      color: "black",
+                      backgroundColor: "white",
+                    },
+                  }}
+                >
+                  Signup
+                </Button>
+              </>
+            )}
             <Button
               component={Link}
               to="/cart"
@@ -281,14 +358,16 @@ function Header() {
               >
                 <Typography textAlign="center">Dashboard</Typography>
               </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleMenuClick("Logout");
-                  handleCloseUserMenu();
-                }}
-              >
-                <Typography textAlign="center">Logout</Typography>
-              </MenuItem>
+              {auth.user && (
+                <MenuItem
+                  onClick={() => {
+                    handleLogout();
+                    handleCloseUserMenu();
+                  }}
+                >
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Toolbar>
