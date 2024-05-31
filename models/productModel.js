@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const Category = require("./categoryModel"); 
 const productSchema = new mongoose.Schema(
   {
     name: {
@@ -15,12 +15,12 @@ const productSchema = new mongoose.Schema(
       required: [true, "Please provide the product description"],
     },
     price: {
-      type: String,
+      type: Number,
       required: [true, "Please provide the product's pricing"],
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
+      ref: "category",
       required: [true, "Please provide the product's respective category"],
     },
     quantity: {
@@ -30,10 +30,10 @@ const productSchema = new mongoose.Schema(
     photo: {
       data: Buffer,
       contentType: String,
-      // required: true
     },
     shipping: {
       type: Boolean,
+      default: false,
     },
   },
   {
